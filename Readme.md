@@ -22,13 +22,13 @@
 
 ​		· 电量显示模组接口
 
-​	2、ESP32 和 该扩展板将实现如下功能
+​	2、ESP32 和 该扩展板将实现如下功能：
 
-​	2、基于micro ros 与ROS2 主机进行通信
+​		·基于micro ros 与ROS2 主机进行通信
 
 ​		· 订阅 速度话题 cmd_vel 
 
-​		· 发布 IMU 、GPS 、Ultra 话题数据
+​		· 发布 IMU 、GPS 、Ultrasonic 话题数据
 
 ​		· 适配两轮差速小车、差速履带小车、基于舵机转向的阿克曼小车
 
@@ -48,7 +48,7 @@
 
 **PS**. 边学边更新，我之前的项目中有详细的 ROS1 学习教程，及ROS2 foxy 的仿真，链接如下：
 
-**[neor_mini](https://github.com/COONEO/neor_mini)**
+**[neor_mini](https://github.com/COONEO/neor_mini)** 
 
 ```
 https://github.com/COONEO/neor_mini
@@ -63,8 +63,6 @@ https://github.com/COONEO/neor_mini
 ![Setup_environment_02](pics/Setup_environment_02.png)
 
 Videos from Bilibili 照祥同学: [第一节：搭建ESP32和Arduino的ROS2开发环境](https://www.bilibili.com/video/BV1Rh41177Af/)
-
-
 
 #### First : Install ROS2 Foxy in Ubuntu 20.04
 
@@ -276,9 +274,17 @@ Videos from Bilibili 照祥同学: [第四节：使用ESP32获取超声波传感
 
 ![Setup_environment_06](pics/Setup_environment_06.png)
 
-Videos from Bilibili 照祥同学: 
+Videos from Bilibili 照祥同学: [第五节：ESP32读取MPU6050姿态数据](https://www.bilibili.com/video/BV1wh4y1p7mT/)
 
-#### First : Connect MPU6050 Module with ESP32
+#### First : Install Adafruit_mpu6050 library
+
+![install_mpu6050_library](/home/lee/Desktop/esp32_ros2_robot/pics/install_mpu6050_library.png)
+
+
+
+
+
+#### Second : Connect MPU6050 Module with ESP32
 
 ![chapter_imu](pics/chapter_imu.png)
 
@@ -291,6 +297,18 @@ Videos from Bilibili 照祥同学:
 	数据引脚 SCL（绿色）   <------->  ESP32_GPIO22 (Output)
 	数据引脚 SDA（黄色）   <------->  ESP32_GPIO21 (Input)
 ```
+
+
+
+**·MPU6050 IIC 通讯示意图**
+
+![Drawing_03](pics/Drawing_03.png)
+
+**·ROS Imu Msg**
+
+![Drawing_02](pics/Drawing_02.png)
+
+**update by zhaoxiangli 2023.04.18**
 
 ------
 
