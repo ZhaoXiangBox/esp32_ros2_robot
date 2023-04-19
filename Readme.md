@@ -22,7 +22,7 @@
 
 ​		· 电量显示模组接口
 
-​	2、ESP32 和 该扩展板将实现如下功能：
+​	2、ESP32 和 该扩展板将实现如下功能
 
 ​		·基于micro ros 与ROS2 主机进行通信
 
@@ -32,7 +32,7 @@
 
 ​		· 适配两轮差速小车、差速履带小车、基于舵机转向的阿克曼小车
 
-​		· 可通过Wifi、Serial的方式控制上
+​		· 可通过Wifi、Serial的方式在ROS层面控制ESP32
 
 ​		· 后续还需要开发 App （展望）
 
@@ -54,7 +54,7 @@
 https://github.com/COONEO/neor_mini
 ```
 
-
+![image-20230419191205933](/home/lee/.config/Typora/typora-user-images/image-20230419191205933.png)
 
 ------
 
@@ -274,13 +274,11 @@ Videos from Bilibili 照祥同学: [第四节：使用ESP32获取超声波传感
 
 ![Setup_environment_06](pics/Setup_environment_06.png)
 
-Videos from Bilibili 照祥同学: [第五节：ESP32读取MPU6050姿态数据](https://www.bilibili.com/video/BV1wh4y1p7mT/)
+Videos from Bilibili 照祥同学: 
 
 #### First : Install Adafruit_mpu6050 library
 
 ![install_mpu6050_library](/home/lee/Desktop/esp32_ros2_robot/pics/install_mpu6050_library.png)
-
-
 
 
 
@@ -308,8 +306,6 @@ Videos from Bilibili 照祥同学: [第五节：ESP32读取MPU6050姿态数据](
 
 ![Drawing_02](pics/Drawing_02.png)
 
-**update by zhaoxiangli 2023.04.18**
-
 ------
 
 
@@ -318,7 +314,7 @@ Videos from Bilibili 照祥同学: [第五节：ESP32读取MPU6050姿态数据](
 
 ![Setup_environment_07](pics/Setup_environment_07.png)
 
-Videos from Bilibili 照祥同学: 
+Videos from Bilibili 照祥同学: [第六节：ESP32通过串口获取定位数据](https://www.bilibili.com/video/BV1tL411v7rR/)
 
 #### First : Connect MPU6050 Module with ESP32
 
@@ -334,7 +330,32 @@ Videos from Bilibili 照祥同学:
 	数据引脚 Tx（黄色）<------->  ESP32_GPIO16 (Rx2 Input)
 ```
 
+![chapter_esp32_gps_uart](pics/chapter_esp32_gps_uart.png)
 
+
+
+#### Second : ATGM336H GPS_BDS Module Output message.
+
+![chapter_gps_output_data](pics/chapter_gps_output_data.png)
+
+​		该定位模组可搜索GPS和北斗卫星导航信号，通过**串口**的方式输出定位信息，串口输出协议参照 NMEA0183 的规定，如上截图，在开阔位置定位模组的输出帧开头通常有：$GPGSV、$BDGSV、**$GNRMC**、$GNVTG、$GNZDA、$GNTXT、$GNGGA、$GNGLL等开头字样，这些不同帧头的数据帧内部包含内容均在 NMEA-0183（美国国家海洋电子协会为海用电子设备制定的标准格式）标准中有说明。
+
+**· ROS GPS Msg**
+
+![chapter_GPS](pics/chapter_GPS.png)
+
+```C
+串口输出信息解释：
+	Save_Data.UTCTime = 121100.000  // hhmmss.sss (小时分钟秒钟.秒钟) 12:11:00 格林威治时间
+	Save_Data.latitude = 3020.26146 // ddmm.mmmmm(度分)30度20分
+	Save_Data.N_S = N               // 北半球
+	Save_Data.longitude = 11212.49989 // ddmm.mmmmm(度分)112度12分
+	Save_Data.E_W = E               // 东半球
+```
+
+
+
+**update by zhaoxiangli 2023.04.18**
 
 ------
 
