@@ -359,3 +359,126 @@ Videos from Bilibili 照祥同学: [第六节：ESP32通过串口获取定位数
 
 ------
 
+
+
+## Chapter 6 ESP32_GPS_BDS_Module
+
+![Setup_environment_08](pics/Setup_environment_08.png)
+
+Videos from Bilibili 照祥同学:
+
+------
+
+#### First : ESP32 Arduino PWM servo test
+
+![multi_servo](pics/multi_servo.png)
+
+
+
+**·Code Tips:**
+
+```c
+// 定义PWM输出引脚为 GPIO2
+#define Servo_Pin1 2     
+  
+int freq = 50;    // 频率为50Hz,即周期为20ms
+int channel = 8 ; // ESP32一共有16个PWM通道[0,15]，其中前8个为高速PWM(80MHz)，后8个为低速(1MHz)
+int resolution = 8; // 引脚输出的分辨率为 8bit 即范围为【0，255】
+  
+// 分别设置 每路 PWM 输出的通道、频率、引脚输出时的分辨率
+ledcSetup(channel,freq,resolution);
+
+// 给指定的GPIO引脚绑定 PWM通道
+ledcAttachPin(Servo_Pin1,channel);
+```
+
+
+
+#### Second : Define a protocol of Serial communication
+
+![serial_commaction](pics/serial_commaction.png)
+
+
+
+#### Third : Serial A4950T PWM Velocity test
+
+![esp32_a4950T_connect](pics/esp32_a4950T_connect.png)
+
+
+
+**· Code Tips **
+
+```c
+// 左边电机转动方向控制位 引脚
+#define Back_Left_D1 12
+#define Back_Left_D1_B 13
+
+// 右边电机转动方向控制位 引脚
+#define Back_Right_D1 14
+#define Back_Right_D1_B 27
+
+void setSpeeds(int m1Speed, int m2Speed){
+  if(m1Speed > 0){    // 控制左侧电机
+    analogWrite(Back_Left_D1, m1Speed);
+    analogWrite(Back_Left_D1_B, LOW);
+  }
+  else{
+    analogWrite(Back_Left_D1, LOW);
+    analogWrite(Back_Left_D1_B, -m1Speed);  
+  }
+
+  if(m2Speed > 0){    // 控制右侧电机
+    analogWrite(Back_Right_D1, m2Speed);
+    analogWrite(Back_Right_D1_B, LOW); 
+  }
+  else{
+    analogWrite(Back_Right_D1, LOW);
+    analogWrite(Back_Right_D1_B, -m2Speed); 
+  }
+}
+```
+
+
+
+#### Fourth : PID controller for Motor Velocity
+
+![PID_design](pics/PID_design.png)
+
+
+
+**· Code Tips **
+
+```c
+// 需要留意的是：本次只对一个电机进行了PID调速，所以只用到了一组编码器；
+// "encoder_driver.h" 中
+void Init_Encoder() {
+  resetEncoders();
+  pinMode(LEFT_ENCODER_A, INPUT);
+  pinMode(LEFT_ENCODER_B, INPUT);
+    
+  // Attaching the ISR to encoder Left A B
+  attachInterrupt(digitalPinToInterrupt(LEFT_ENCODER_A), Left_encoder_isr_A, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LEFT_ENCODER_B), Left_encoder_isr_B, CHANGE);
+    
+  // 若同时对两个电机调速，需要解除如下程序的注释
+  // pinMode(RIGHT_ENCODER_A, INPUT);
+  // pinMode(RIGHT_ENCODER_B, INPUT);
+    
+  // Attaching the ISR to encoder Rigth A B
+  // attachInterrupt(digitalPinToInterrupt(RIGHT_ENCODER_A), Right_encoder_isr_A, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(RIGHT_ENCODER_B), Right_encoder_isr_B, CHANGE);
+}
+```
+
+**Tips:** 
+
+​	1、整个速度控制对于目标脉冲为0时，采用的是自由停车的方式，即：停止PID运算，电机自由停车。程序中使用了一个标志位 moving 来判断目标脉冲值是否为 0 。
+
+​	2、对于新手如何使用本程序，后续会出一期增刊视频，专门讲解如何调整PID参数和如何判断电机接线正确。	3、速度控制的方式很多，我只是用了其中的一种，非常欢迎大佬能提出宝贵的建议和更高效简洁的办法。
+
+​	4、由于ESP32没有专门的编码器解码器，这里采用的是外部中断的方式记录脉冲值，所以建议使用霍尔编码电机。如果使用分辨率非常高的光电编码器，由于电机转动起来进入中断的次数太频繁了，会影响主程序运行。
+
+**update by zhaoxiangli 2023.04.21**
+
+------
+
