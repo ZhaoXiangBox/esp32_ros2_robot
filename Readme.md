@@ -361,11 +361,11 @@ Videos from Bilibili 照祥同学: [第六节：ESP32通过串口获取定位数
 
 
 
-## Chapter 6 ESP32_GPS_BDS_Module
+## Chapter 7 ESP32_GPS_BDS_Module
 
 ![Setup_environment_08](pics/Setup_environment_08.png)
 
-Videos from Bilibili 照祥同学:
+Videos from Bilibili 照祥同学:[第七节：ESP32通过PID实现霍尔编码电机的速度控制](https://www.bilibili.com/video/BV19h411E7uf/)
 
 ------
 
@@ -477,6 +477,8 @@ void Init_Encoder() {
 ​	2、对于新手如何使用本程序，后续会出一期增刊视频，专门讲解如何调整PID参数和如何判断电机接线正确。	3、速度控制的方式很多，我只是用了其中的一种，非常欢迎大佬能提出宝贵的建议和更高效简洁的办法。
 
 ​	4、由于ESP32没有专门的编码器解码器，这里采用的是外部中断的方式记录脉冲值，所以建议使用霍尔编码电机。如果使用分辨率非常高的光电编码器，由于电机转动起来进入中断的次数太频繁了，会影响主程序运行。
+
+[第七节：补充说明部分](https://www.bilibili.com/video/BV11v4y1E7SR/)
 
 **update by zhaoxiangli 2023.04.21**
 
