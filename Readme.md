@@ -54,8 +54,6 @@
 https://github.com/COONEO/neor_mini
 ```
 
-![image-20230419191205933](/home/lee/.config/Typora/typora-user-images/image-20230419191205933.png)
-
 ------
 
 ## Chapter 1 install_Arduino_ROS2_ESP32
