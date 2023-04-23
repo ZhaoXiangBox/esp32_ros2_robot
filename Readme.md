@@ -484,3 +484,79 @@ void Init_Encoder() {
 
 ------
 
+
+
+## Chapter 8 :ESP32_Foxy_Sub_Pub_Topic_by_MicroROS_WIFI
+
+![Setup_environment_09](pics/Setup_environment_09.png)
+
+Videos from Bilibili 照祥同学:[第8节 ESP32通过WiFi和ROS2通信](https://www.bilibili.com/video/BV1Qa4y1P7AY/)
+
+------
+
+![ESP32_WIIF_Foxy](pics/ESP32_WIIF_Foxy.png)
+
+#### First : Setup a WIFI Hotspot 
+
+​	**·Such as my Xiaomi Phone's Hotspot:**
+
+```c
+  // Huawei 是WIFI热点的名字
+  // 12345678 是WIFI的密码
+```
+
+
+
+#### Second : Let PC connect this hotspot and remember it's IP number
+
+​	**·open a terminal and input " ifconfig" command :**
+
+![ip](pics/ip.png)
+
+
+
+#### Third : Check the WIFI information in ESP32 Code 
+
+```c
+  /******************************************************************************
+  // set_microros_wifi_transports("Huawei", "12345678", "192.168.27.182", 8888)的意义
+  // Huawei 是WIFI热点的名字
+  // 12345678 是WIFI的密码
+  // 192.168.27.182 是WIFI热点给笔记本电脑分配的IP
+  // 8888 是局域网内ROS2消息传输的端口号，后续在电脑端运行 micro_ros_agent 时候需要加载的参数
+  ******************************************************************************/
+  set_microros_wifi_transports("Huawei", "12345678", "192.168.27.182", 8888);
+```
+
+
+
+#### Fourth : Run micro_ros_agent for wifi
+
+​	**·open a terminal**
+
+```c
+cd microros_ws     // cd in your micros workspace
+source install/setup.bash // source
+ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888   // run micro_ros_agent in ubuntu
+```
+
+![run_udp4_command](pics/run_udp4_command.png)
+
+
+
+​	**·then press the ESP32 Reset Button.**
+
+![reset_button_terminal](pics/reset_button_terminal.png)
+
+
+
+​	**· ros2 topic list**
+
+![topic_lists](pics/topic_lists.png)
+
+**update by zhaoxiangli 2023.04.23**
+
+------
+
+
+
