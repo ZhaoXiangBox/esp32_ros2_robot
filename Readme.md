@@ -558,3 +558,59 @@ ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888   // run micro_ros_agent i
 
 
 
+## Chapter 9:ESP32_Foxy_Sub_Pub_Topic_by_MicroROS_Serial
+
+![Setup_environment_10](pics/Setup_environment_10.png)
+
+Videos from Bilibili 照祥同学: [第九节 : ESP32基于micro-ros通过串口代理发布和订阅ROS2的topic](https://www.bilibili.com/video/BV1Xg4y177Nc/)
+
+------
+
+![chapter9_1](pics/chapter9_1.png)
+
+
+
+**· open a terminal**
+
+```c
+cd microros_ws     // cd in your micros workspace
+source install/setup.bash // source
+ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0 
+```
+
+![initial_serial](pics/initial_serial.png)
+
+​	**·then press the ESP32 Reset Button.**
+
+![press_reset](pics/press_reset.png)
+
+------
+
+#### First : Create a node with default configuration
+
+![chapter9_2](pics/chapter9_2.png)
+
+------
+
+#### Second : Initialize a publisher by best effert
+
+![chapter9_3](pics/chapter9_3.png)
+
+------
+
+#### Third : Initialize a subscriber by default
+
+![chapter9_4](pics/chapter9_4.png)
+
+![chapter9_5](pics/chapter9_5.png)
+
+#### URL Link : [Programming with rcl and rclc](https://micro.ros.org/docs/tutorials/core/overview/#collapse-9)
+
+**update by zhaoxiangli 2023.04.25**
+
+------
+
+
+
+
+
