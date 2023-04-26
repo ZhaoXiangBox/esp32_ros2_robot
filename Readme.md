@@ -612,5 +612,19 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0
 
 
 
+## Chapter 10 ESP32_Kinematics_Ackerman_micro_ros_WIFI
 
+![Setup_environment_12](pics/Setup_environment_12.png)
+
+Videos from Bilibili 照祥同学: [第十节：ESP32订阅Topic并实现阿克曼小车的运动学解算](https://www.bilibili.com/video/BV1PM411G7Cj/)
+
+------
+
+![kinematics](pics/kinematics.png)
+
+![kinematics_2](pics/kinematics_2.png)
+
+**update by zhaoxiangli 2023.04.26**
+
+------
 
