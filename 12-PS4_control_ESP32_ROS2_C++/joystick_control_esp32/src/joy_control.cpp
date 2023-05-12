@@ -4,7 +4,6 @@
 #include <sensor_msgs/msg/joy.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <std_msgs/msg/int8.hpp>
-#include "std_msgs/msg/u_int8_multi_array.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -19,7 +18,12 @@ class JoystickPublisher : public rclcpp::Node
       Twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
       Servo1_publisher_ = this->create_publisher<std_msgs::msg::Int8>("servo1",10);
       Servo2_publisher_ = this->create_publisher<std_msgs::msg::Int8>("servo2",10);
-      Light_state_publisher_ = this->create_publisher<std_msgs::msg::UInt8MultiArray>("light_state",10);
+
+      // LED Control State Publisher
+      Front_light_state_publisher_ = this->create_publisher<std_msgs::msg::Int8>("Front_light_state",10);
+      Back_light_state_publisher_  = this->create_publisher<std_msgs::msg::Int8>("Back_light_state",10);
+      Blink_light_state_publisher_ = this->create_publisher<std_msgs::msg::Int8>("Blink_light_state",10);
+      Close_light_state_publisher_ = this->create_publisher<std_msgs::msg::Int8>("Close_light_state",10);
 
       joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>("joy", rclcpp::QoS(10),std::bind(&JoystickPublisher::joyCallback, this, std::placeholders::_1) );
     }
@@ -28,7 +32,12 @@ class JoystickPublisher : public rclcpp::Node
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr Twist_publisher_;
     rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Servo1_publisher_;
     rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Servo2_publisher_;
-    rclcpp::Publisher<std_msgs::msg::UInt8MultiArray>::SharedPtr Light_state_publisher_;
+
+    // Light state control
+    rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Front_light_state_publisher_;
+    rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Back_light_state_publisher_ ;
+    rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Blink_light_state_publisher_ ;
+    rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr Close_light_state_publisher_;
 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
 
@@ -66,27 +75,37 @@ class JoystickPublisher : public rclcpp::Node
             1：打开/关闭 前灯；
             2：打开/关闭 双闪；
             3：打开/关闭 后灯；
-            4：打开/关闭 左转向灯；
-            5：打开/关闭 右转向灯；
         ****************************************************************/
-       auto light_msg = std_msgs::msg::UInt8MultiArray() ;
-       light_msg.data.resize(joy_msg->buttons.size());
-       for(int i=0;i<(int)joy_msg->buttons.size();i++ )
+       auto front_light_msg = std_msgs::msg::Int8();
+       auto back_light_msg = std_msgs::msg::Int8();
+       auto blink_light_msg = std_msgs::msg::Int8();
+       auto close_light_msg = std_msgs::msg::Int8();
+       
+        if(joy_msg->buttons[0]> 0)
         {
-            if(joy_msg->buttons[i]> 0)
-            {
-                light_msg.data[i] =1;
-                light_state_flag_ = true;
-            }
+            close_light_msg.data = 1;
+            Close_light_state_publisher_->publish(close_light_msg);
         }
 
-        // 只有当按下过手柄的按键，才会更新 topic 消息。
-        if(light_state_flag_)
+        if(joy_msg->buttons[1]> 0)
         {
-            Light_state_publisher_->publish(light_msg);
+            front_light_msg.data = 1;
+            Front_light_state_publisher_->publish(front_light_msg);
         }
+        
+        if(joy_msg->buttons[2]> 0)
+        {
+            blink_light_msg.data = 1;
+            Blink_light_state_publisher_->publish(blink_light_msg);
+        }
+        
+        if(joy_msg->buttons[3]> 0)
+        {
+            back_light_msg.data = 1;
+            Back_light_state_publisher_->publish(back_light_msg);
+        }
+
     }
-
 };
 
 
