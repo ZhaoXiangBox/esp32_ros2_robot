@@ -48,6 +48,9 @@
 
 
 
+![ESP32_ROS2_Extend_Board](pics/ESP32_ROS2_Extend_Board.png)
+
+​                                                                                                                                  **(该PCB板和师弟：[lulipro](https://github.com/lulipro) 共同完成)**
 
 
 
