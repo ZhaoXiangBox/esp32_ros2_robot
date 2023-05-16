@@ -6,7 +6,7 @@
 
 - [x] ​		· 带 两路霍尔编码器的直流减速电机接口 
 
-- [ ] ​		· 带 3路舵机 PWM 控制接口
+- [x] ​		· 带 3路舵机 PWM 控制接口
 
 - [x] ​		· 带 1路HC-SR04 超声波接口
 
@@ -53,6 +53,8 @@
 ​                                                                                                                                  **(该PCB板和师弟：[lulipro](https://github.com/lulipro) 共同完成)**
 
 
+
+![face.png](pics/face.png)
 
 **PS**. 边学边更新，我之前的项目中有详细的 ROS1 学习教程，及ROS2 foxy 的仿真，链接如下：
 
