@@ -26,15 +26,11 @@
 ​	2、ESP32 和 该扩展板将实现如下功能
 
 - [x] ​		·基于micro ros 与ROS2 主机进行通信
-
-- [x] ​		· 订阅 速度话题 cmd_vel 
-
+- [x] ​		· 订阅 速度控制话题 cmd_vel 
+- [x] ​        · 订阅 云台灯光控制话题 esp32_state
 - [ ] ​		· 发布 IMU 、GPS 、Ultrasonic 话题数据
-
 - [ ] ​		· 适配两轮差速小车、差速履带小车、基于舵机转向的阿克曼小车
-
 - [x] ​		· 可通过Wifi、Serial的方式在ROS层面控制ESP32
-
 - [ ] ​		· 后续还需要开发 App （展望）
 
 
@@ -54,7 +50,7 @@
 
 
 
-![face.png](pics/face.png)
+![face.png](pics/face.jpg)
 
 **PS**. 边学边更新，我之前的项目中有详细的 ROS1 学习教程，及ROS2 foxy 的仿真，链接如下：
 
