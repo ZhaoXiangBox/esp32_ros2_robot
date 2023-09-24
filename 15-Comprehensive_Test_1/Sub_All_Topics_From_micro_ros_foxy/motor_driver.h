@@ -1,4 +1,4 @@
-#include<Servo.h>
+#include <ESP32Servo.h>
 
 // 左边电机转动方向控制位 引脚
 #define Back_Left_D1 13
@@ -80,12 +80,9 @@ void Servo1_control(int degree) //定义函数用于输出PWM的占空比
 void init_Servo_motor()
 {
   // 安装舵机的时候，需要让其处在正中间的位置后再固定拉杆，
-    servo1.attach(
-        Ackermann_Servo, 
-        Servo::CHANNEL_NOT_ATTACHED, 
-        MAX_Left_Servo_Value,
-        MAX_Right_Servo_Value
-    );
+  servo1.setPeriodHertz(50);
+  servo1.attach(Ackermann_Servo,minUs,maxUs);
+
   Servo1_control(MIDDLE_Angle_Value);                  // 初始舵机角度居中
 
 }

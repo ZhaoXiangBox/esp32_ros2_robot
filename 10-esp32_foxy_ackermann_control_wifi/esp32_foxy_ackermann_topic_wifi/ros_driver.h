@@ -9,17 +9,19 @@
 #include "pid_v1.h"
 
 // 自定义圆周率
-#define PI 3.1415926
+// #define PI 3.1415926
 
 // 死机检测，若时间间隔大于1s没有收到指令，则停车
-#define AUTO_STOP_INTERVAL 2000  
+#define AUTO_STOP_INTERVAL 1000  
 
 // 通过宏定义的方式判断各种ROS操作是否执行成功，判断依据是RCL API返回的句柄
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
+
 rcl_subscription_t twist_subscriber;
-rclc_executor_t executor;
+
+rclc_executor_t PID_executor;
 rclc_support_t support;
 rcl_allocator_t allocator;
 rcl_node_t node;
@@ -95,13 +97,21 @@ void Twist_to_pluse_and_Servo(double linear_vel, double angular_vel)
 
   setTargetTicksPerFrame(Twist_temp.left_pulse_per_interval ,Twist_temp.right_pulse_per_interval);
   // 转向角度和舵机PWM的关系转换
-  Servo1_control(servo_angle);
+
+  int result_angle = 90 - (int)servo_angle;
+  // Serial.print("angle: ");
+  // Serial.print(servo_angle);
+  // Serial.print(" ");
+  // Serial.print("result_angle: ");
+  // Serial.println(result_angle);
+
+  Servo1_control(result_angle);
   // Serial.print("V_L: ");
   // Serial.print(Twist_temp.left_pulse_per_interval);
   // Serial.print(" V_L: ");
   // Serial.print(Twist_temp.right_pulse_per_interval);
   // Serial.print(" angle: ");
-  // Serial.println(servo_angle); 
+  // Serial.println(result_angle); 
 }
 
 // 订阅速度话题 cmd_vel 的回调函数。
@@ -110,6 +120,8 @@ void subscription_callback(const void *msgin) {
   double Velocity = msg->linear.x;
   double Angular = msg->angular.z;
   Twist_to_pluse_and_Servo(Velocity,Angular);
+
+  // Serial.println("Recv data");
 
   lastMotorCommand = millis(); // 记录每一次订阅到 topic 的时间。
 }
@@ -124,7 +136,7 @@ void Init_ROS()
   // 192.168.27.182 是WIFI热点给笔记本电脑分配的IP
   // 8888 是局域网内ROS2消息传输的端口号，后续在电脑端运行 micro_ros_agent 时候需要加载的参数
   ******************************************************************************/
-  set_microros_wifi_transports("Huawei", "12345678", "192.168.149.182", 8888);
+  set_microros_wifi_transports((char*)"Huawei", (char*)"12345678", (char*)"192.168.223.182", 8888);
   allocator = rcl_get_default_allocator();
 
   //create init_options
@@ -139,10 +151,11 @@ void Init_ROS()
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
     "cmd_vel"));
+  
 
-  // create executor
-  RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
-  RCCHECK(rclc_executor_add_subscription(&executor, &twist_subscriber, &twist_msg, &subscription_callback, ON_NEW_DATA));
+  // create PID_executor
+  RCCHECK(rclc_executor_init(&PID_executor, &support.context, 1, &allocator));
+  RCCHECK(rclc_executor_add_subscription(&PID_executor, &twist_subscriber, &twist_msg, &subscription_callback, ON_NEW_DATA));
   
   // 设置各个电机目标初始值为 0 0 90
   setTargetTicksPerFrame(0, 0);

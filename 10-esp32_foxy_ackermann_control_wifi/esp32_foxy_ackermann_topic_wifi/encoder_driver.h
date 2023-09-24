@@ -15,8 +15,8 @@ Motor Encoder Information:
 #define LEFT_ENCODER_B 5  
 
 // 右侧电机的 A B 相编码器接口引脚
-#define RIGHT_ENCODER_A 18  
-#define RIGHT_ENCODER_B 19  
+#define RIGHT_ENCODER_A 19  
+#define RIGHT_ENCODER_B 18  
 
 #define LEFT 0
 #define RIGHT 1

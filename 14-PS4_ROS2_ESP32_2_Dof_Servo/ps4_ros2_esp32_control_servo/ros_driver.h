@@ -65,7 +65,7 @@ void Init_ROS()
   // 192.168.27.182 是WIFI热点给笔记本电脑分配的IP
   // 8888 是局域网内ROS2消息传输的端口号，后续在电脑端运行 micro_ros_agent 时候需要加载的参数
   ******************************************************************************/
-  set_microros_wifi_transports("Huawei", "12345678", "192.168.81.182", 8888);
+  set_microros_wifi_transports((char*)"Huawei", (char*)"12345678", (char*)"192.168.223.182", 8888);
   allocator = rcl_get_default_allocator();
 
   //create init_options

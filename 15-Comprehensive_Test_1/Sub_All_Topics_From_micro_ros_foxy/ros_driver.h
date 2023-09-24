@@ -12,7 +12,7 @@
 #include "pid_v1.h"
 
 // 自定义圆周率
-#define PI 3.1415926
+// #define PI 3.1415926
 
 // 死机检测，若时间间隔大于100 ms没有收到指令，则停车
 #define AUTO_STOP_INTERVAL 1000  
@@ -213,7 +213,7 @@ void Init_ROS()
   // 192.168.27.182 是WIFI热点给笔记本电脑分配的IP
   // 8888 是局域网内ROS2消息传输的端口号，后续在电脑端运行 micro_ros_agent 时候需要加载的参数
   ******************************************************************************/
-  set_microros_wifi_transports("Huawei", "12345678", "192.168.183.182", 8888);
+  set_microros_wifi_transports((char*)"Huawei", (char*)"12345678", (char*)"192.168.223.182", 8888);
   // Serial, not Wifi.
   // set_microros_transports();
 
